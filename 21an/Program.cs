@@ -49,7 +49,7 @@
 
         static void BlackJack()
         {
-            string lastWinner;
+            string lastWinner = "";
             Random random = new Random();
             
             Console.WriteLine("Welcome to BLACKJACK!");
@@ -95,7 +95,7 @@
                         Console.WriteLine("Choose [P]ull card or [S]tay");
                         string pullOrStay = Console.ReadLine();
 
-                        while (pullOrStay == "P")
+                        while (pullOrStay.ToUpper() == "P")
                         {
                             int userCard3 = random.Next(2, 11);
                             userPoints += userCard3;
@@ -106,7 +106,9 @@
                             {
                                 Console.WriteLine("You went B-U-S-T! Dealer wins");
                                 lastWinner = "Dealer";
-                                
+                                pullOrStay = " ";
+                                break;
+
                             }
                             else
                             {
@@ -114,30 +116,48 @@
                                 pullOrStay = Console.ReadLine();
                             }
 
-                            if (dealerPoints < userPoints && dealerPoints > 21)
+                        }
+
+                        while (pullOrStay.ToUpper() == "S")
+                        {
+                            if (dealerPoints < userPoints && dealerPoints <= 21)
                             {
                                 int dealerCard3 = random.Next(2, 11);
                                 dealerPoints += dealerCard3;
 
                                 Console.WriteLine($"The dealer pulled a {dealerCard3} and their new point total is: {dealerPoints}");
 
-                                if (dealerPoints > 21)
+                                if (dealerPoints >= 22)
                                 {
                                     Console.WriteLine("The dealer went B-U-S-T! You win!");
                                     lastWinner = "Player";
                                     break;
                                 }
+                                else if (dealerPoints > userPoints && dealerPoints >= 21)
+                                {
+                                    Console.WriteLine("The dealer got more points than you without going B-U-S-T! Dealer wins");
+                                    lastWinner = "Dealer";
+                                    break;
+                                }
+                            }
+                            else if (userPoints == dealerPoints)
+                            {
+                                int dealerCard3 = random.Next(2, 11);
+                                dealerPoints += dealerCard3;
 
-
+                                Console.WriteLine($"The dealer pulled a {dealerCard3} and their new point total is: {dealerPoints}");
+                            }
+                            else
+                            {
+                                Console.WriteLine("The dealer got more points than you without going B-U-S-T! Dealer wins");
+                                lastWinner = "Dealer";
+                                break;
                             }
                         }
-
-
-
-
                         break;
 
                     case 2:
+                        Console.WriteLine($"The last round was won by: {lastWinner}");
                         break;
 
                     case 3:
@@ -170,7 +190,7 @@
 
         static void Main(string[] args)
         {
-            
+            BlackJack();
         }
     }
 }
